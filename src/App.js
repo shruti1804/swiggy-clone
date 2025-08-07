@@ -13,7 +13,7 @@ function App() {
     const fetchrestaurants = async () => {
       try {
         const response = await fetch(
-          "https://chn-b102-swiggy-clone.vercel.app/Restaurant.json"
+          "https://swiggy-clone-beta-wheat.vercel.app/Restaurant.json"
         );
         if (response.ok) {
           const data = await response.json();
