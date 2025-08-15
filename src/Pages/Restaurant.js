@@ -1,9 +1,61 @@
-const Restaurant=()=>{
-    return(
-        <div>
-            <h1>Restaurant Page</h1>
-        </div>
+import { useOutletContext, useParams } from "react-router-dom";
+import "./../Style/restaurant.css";
+import { useEffect, useState } from "react";
+import RestaurantInfo from "../Components/RestaurantInfo";
+import MenuItem from "../Components/MenuItem";
 
-    )
-}
+const Restaurant = () => {
+  const { resId } = useParams();
+  const { cartItems, addItem, removeItem, restaurants } = useOutletContext();
+  const [restaurant, setRestaurant] = useState(null);
+  const [menu, setMenu] = useState([]);
+  
+  useEffect(() => {
+  if (!restaurants || restaurants.length === 0) return;
+
+  const fetchData = async () => {
+    try {
+      const found = restaurants.find(
+        (i) => String(i.info.id) === String(resId)
+      );
+      setRestaurant(found);
+
+      const response = await fetch(
+        "https://swiggy-clone-beta-wheat.vercel.app/menu.json"
+      );
+      const menuData = await response.json();
+      setMenu(menuData || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchData();
+}, [resId, restaurants]);
+
+
+  return (
+    <div className="restaurant">
+      <div className="restaurant__breadcrumb">
+        <span>Home/Nagpur/{restaurant?.info?.name}</span>
+      </div>
+      <div className="restaurant__container">
+        <RestaurantInfo restaurant={restaurant}></RestaurantInfo>
+        <div className="restaurant__menu">
+          {menu.map((res, index) => {
+            return (
+              <MenuItem
+               key={res?.card?.info?.id || index}
+                res={res?.card?.card}
+                cartItems={cartItems}
+                addItem={addItem}
+                removeItem={removeItem}
+              ></MenuItem>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
 export default Restaurant;

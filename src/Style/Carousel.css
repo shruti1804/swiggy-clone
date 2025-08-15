@@ -6,7 +6,7 @@
 body {
   margin: auto;
 }
-.carousel_container {
+.carousel__container {
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,51 +1,83 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
-import Home from './Pages/Home';
-import About from './Pages/About';
-import Cart from './Pages/Cart';
-import Search from './Pages/Search';
-import Help from './Pages/Help';
-import Restaurant from './Pages/Restaurant';
+// import Home from './Pages/Home';
+// import About from './Pages/About';
+// import Cart from './Pages/Cart';
+// import Search from './Pages/Search';
+// import Help from './Pages/Help';
+// import Restaurant from './Pages/Restaurant';
+// import PageNotFound from './Pages/PageNotFound';
 
+const Home = lazy(() => import("./Pages/Home"));
+const Cart = lazy(() => import("./Pages/Cart"));
+const Help = lazy(() => import("./Pages/Help"));
+const Search = lazy(() => import("./Pages/Search"));
+const Restaurant = lazy(() => import("./Pages/Restaurant"));
+const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
 
 const urls = createBrowserRouter([
   {
     path:"/",
     element: <App></App>,
     children: [
-      {
-        path:"/",
-        element: <Home></Home>
-      },
-      {
-        path:"/about",
-        element: <About></About>
-      },
-      {
-        path:"/cart",
-        element: <Cart></Cart>
-      },
-      {
-        path:"/search",
-        element: <Search></Search>
-      },
-      {
-        path:"/help",
-        element: <Help></Help>
-      },
-      {
-        path:"/restaurant",
-        element: <Restaurant></Restaurant>
-      },
-      {
-        path:"*",
-        element: <h1>OOPS! Wrong URL.</h1>,
-      },
-    ],
+          {
+            path: "/",
+            element: (
+              <Suspense fallback={<h1 className="aas">Loading</h1>}>
+                <Home></Home>
+              </Suspense>
+            ),
+          },
+          {
+            path: "/cart",
+            element: (
+              <Suspense fallback={<h1 className="aas">Loading</h1>}>
+                {" "}
+                <Cart></Cart>
+              </Suspense>
+            ),
+          },
+          {
+            path: "/help",
+            element: (
+              <Suspense fallback={<h1 className="aas">Loading</h1>}>
+                {" "}
+                <Help></Help>
+              </Suspense>
+            ),
+          },
+          {
+            path: "/search",
+            element: (
+              <Suspense fallback={<h1 className="aas">Loading</h1>}>
+                {" "}
+                <Search></Search>
+              </Suspense>
+            ),
+          },
+          {
+            path: "/restaurant/:resId",
+            element: (
+              <Suspense fallback={<h1 className="aas">Loading</h1>}>
+                {" "}
+                <Restaurant></Restaurant>
+              </Suspense>
+            ),
+          },
+          {
+            path: "*",
+            element: (
+              <Suspense fallback={<h1 className="aas">Loading</h1>}>
+                {" "}
+                <PageNotFound></PageNotFound>
+              </Suspense>
+            ),
+          },
+        ],
 
   },
 ]);

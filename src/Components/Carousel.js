@@ -20,7 +20,7 @@ function Carousel() {
 
   return (
     <div className="carousel">
-      <div className="carousel_container">
+      <div className="carousel__container">
         <h2 className="carousel__title">Top restaurant chains in Nagpur.</h2>
         <div className="carousel__controls">
           <button className="carousel__arrow" onClick={handlePrevClick}>
